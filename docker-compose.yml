@@ -1,0 +1,18 @@
+services:
+  vite_docker_techrepo:
+    image: node:alpine
+    container_name: techrepo-vite
+    entrypoint: /bin/sh
+    ports:
+      - 5173:5173
+      - 8080:8080
+    working_dir: /srv/app
+    volumes:
+      - nodemodules-techrepo:/srv/app/node_modules
+      - type: bind
+        source: ./
+        target: /srv/app
+    tty: true
+
+volumes:
+  nodemodules-techrepo: {}
