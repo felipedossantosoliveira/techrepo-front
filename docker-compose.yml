@@ -5,7 +5,6 @@ services:
     entrypoint: /bin/sh
     ports:
       - 5173:5173
-      - 8080:8080
     working_dir: /srv/app
     volumes:
       - nodemodules-techrepo:/srv/app/node_modules
