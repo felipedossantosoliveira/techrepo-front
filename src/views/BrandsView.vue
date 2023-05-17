@@ -148,7 +148,7 @@ onMounted(() => {
 	</div>
 		<div class="grid grid-cols-3 gap-4">
 		<div v-for="brand in brands.data" :key="brand.id"
-			class="bg-zinc-800 flex flex-wrap rounded-xl text-white overflow-hidden">
+			class="bg-zinc-800/70 flex flex-wrap rounded-xl text-white overflow-hidden">
 			<div class="py-4 px-7 w-9/12">
 				<p class=" text-lg font-semibold mb-2">{{ brand.name }}</p>
 				<p class="text-neutral-400">Discussões: 25</p>
