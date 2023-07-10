@@ -23,10 +23,16 @@ function closeDetailBrand() {
 	detailBrand.data = {}
 }
 
+const url = import.meta.env.VITE_APP_URL
+
 function loadBrand(id) {
-	axios
-		.get('http://localhost:8080/api/v1/brands/'+id)
-		.then((response) => {
+	axios({
+		method: 'get',
+		url: url + '/brands/'+id,
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('token')
+		}
+	}).then((response) => {
 			detailBrand.data = response.data
 			detailBrand.show = true
 		})
@@ -109,9 +115,13 @@ const brands = reactive({
 
 function loadBrands() {
 	brands.processing = true
-	axios
-		.get('http://localhost:8080/api/v1/brands')
-		.then((response) => {
+	axios({
+		method: 'get',
+		url: url + '/brands',
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('token')
+		}
+	}).then((response) => {
 			brands.data = response.data
 			brands.processing = false
 		})
