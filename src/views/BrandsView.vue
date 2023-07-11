@@ -45,7 +45,10 @@ function createBrand() {
 	formBrand.processing = true
 	axios({
 		method: 'post',
-		url: 'http://localhost:8080/api/v1/brands',
+		url: url + '/brands',
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('token')
+		},
 		data: {
 			name: formBrand.name,
 		}
@@ -62,9 +65,13 @@ function createBrand() {
 }
 
 function editBrand(id) {
-	axios
-		.get('http://localhost:8080/api/v1/brands/'+id)
-		.then((response) => {
+	axios({
+		method: 'get',
+		url: url + '/brands/'+id,
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('token')
+		}
+	}).then((response) => {
 			formBrand.name = response.data.name
 			formBrand.id = response.data.id
 			formBrand.edit = true
@@ -77,11 +84,14 @@ function editBrand(id) {
 function updateBrand() {
 	formBrand.processing = true
 	axios({
-		method: 'put',
-		url: 'http://localhost:8080/api/v1/brands/'+formBrand.id,
+		method: 'patch',
+		url: url + '/brands/'+formBrand.id,
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('token')
+		},
 		data: {
 			name: formBrand.name,
-		}
+		},
 	})
 	.then((response) => {
 		formBrand.edit = false
@@ -98,7 +108,10 @@ function updateBrand() {
 function deleteBrand(id) {
 	axios({
 		method: 'delete',
-		url: 'http://localhost:8080/api/v1/brands/'+id,
+		url: url + '/brands/'+id,
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('token')
+		}
 	})
 	.then((response) => {
 		loadBrands()
@@ -139,12 +152,12 @@ onMounted(() => {
 		<h1 class="text-3xl text-neutral-100 font-bold">Brands</h1>
 		<div class="flex items-center justify-between">
 			<div class="flex items-center space-x-2">
-				<input type="text" placeholder="Pesquisar" class="rounded-xl px-4 py-2 w-96 bg-zinc-900 text-neutral-100 border border-neutral-600">
+				<!-- <input type="text" placeholder="Pesquisar" class="rounded-xl px-4 py-2 w-96 bg-zinc-900 text-neutral-100 border border-neutral-600">
 				<button class="text-neutral-200 bg-zinc-800 px-8 border border-zinc-800 py-2 rounded-xl">
 					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
 					</svg>
-				</button>
+				</button> -->
 			</div>
 			<div>
 				<button @click="formBrand.show = true" class="font-semibold text-neutral-200 text-2xl">
@@ -156,14 +169,13 @@ onMounted(() => {
 	<div v-if="brands.processing" class="flex items-center justify-center">
 		<Processing class="w-7 text-neutral-200" />
 	</div>
-		<div class="grid grid-cols-3 gap-4">
+		<div class="grid sm:grid-cols-3 gap-4">
 		<div v-for="brand in brands.data" :key="brand.id"
 			class="bg-zinc-800/70 flex flex-wrap rounded-xl text-white overflow-hidden">
 			<div class="py-4 px-7 w-9/12">
 				<p class=" text-lg font-semibold mb-2">{{ brand.name }}</p>
-				<p class="text-neutral-400">Discussões: 25</p>
-				<p class="text-neutral-400">Soluções: 8</p>
-				<p class="text-neutral-400">Produtos cadastrados: 5</p>
+				<p class="text-neutral-400">Soluções: {{ brand.issues }}</p>
+				<p class="text-neutral-400">Produtos cadastrados: {{ brand.devices }}</p>
 			</div>
 			<div class="py-5 items-start w-1/4 px-7 justify-end flex">
 				<button @click="deleteBrand(brand.id)">

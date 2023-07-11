@@ -1,9 +1,10 @@
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import Modal from '../../components/Modal.vue';
 import axios from 'axios'
 import Processing from '../../components/Processing.vue';
-import {useRouter} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
+import { inject } from 'vue'
 
 const url = import.meta.env.VITE_APP_URL
 
@@ -12,7 +13,11 @@ const brands = reactive({
 	processing: false,
 })
 
+const route = useRoute()
+
 const router = useRouter()
+
+const id = route.params.id
 
 const form = reactive({
 	name: '',
@@ -36,10 +41,39 @@ function loadBrands() {
 			console.log(error)
 		})
 }
-function createDevice() {
+
+const device = reactive({
+	data: {},
+	processing: false,
+})
+
+function loadDeviceById() {
+	device.processing = true
 	axios({
-		method: 'post',
-		url: url + '/devices',
+		method: 'get',
+		url: url + '/devices/'+id,
+		headers: {
+			Authorization: 'Bearer ' + localStorage.getItem('token')
+		}
+	}).then((response) => {
+			device.data = response.data
+			form.name = device.data.name
+			form.model = device.data.model
+			form.brandId = device.data.brand.id
+			formBrand.name = device.data.brand.name
+			formBrand.id = device.data.brand.id
+			loadBrands()
+			device.processing = false
+		})
+		.catch((error) => {
+			console.log(error)
+		})
+}
+
+function editDevice() {
+	axios({
+		method: 'patch',
+		url: url + '/devices/' + id,
 		headers: {
 			Authorization: 'Bearer ' + localStorage.getItem('token')
 		},
@@ -78,6 +112,10 @@ function selectBrand(brand) {
 	formBrand.id = brand.id
 	closeBrandSelector()
 }
+
+onMounted(() => {
+	loadDeviceById()
+})
 </script>
 <template>
 	<div class="my-8 space-y-8">
@@ -92,7 +130,7 @@ function selectBrand(brand) {
 			</button>
 			<input placeholder="Nome" v-model="form.name" type="text" class="rounded-xl px-4 py-2 w-full bg-zinc-900 text-neutral-100 border border-neutral-600" />
 			<input placeholder="Modelo" v-model="form.model" type="text" class="rounded-xl px-4 py-2 w-full bg-zinc-900 text-neutral-100 border border-neutral-600" />
-			<button @click="createDevice" class="rounded-xl px-4 py-2 w-full bg-zinc-900 text-neutral-100 border border-neutral-600">Cadastrar</button>
+			<button @click="editDevice" class="rounded-xl px-4 py-2 w-full bg-zinc-900 text-neutral-100 border border-neutral-600">Editar</button>
 		</div>
 	</main>
 	<Modal :show="formBrand.show" @close="closeBrandSelector()">

@@ -56,22 +56,25 @@ const show = reactive({
       <LogoOnion class="h-full p-4"/>
     </div>
     <div>
-      <div class="flex my-4 rounded-2xl px-10 py-4 items-center justify-between">
-        <div class="text-2xl font-bold px-6 h-10 flex items-center space-x-4 bg-zinc-900 text-neutral-200 rounded-full">
+      <div class="flex flex-wrap my-4 rounded-2xl px-10 py-4 items-center justify-between">
+        <div class="text-2xl w-full justify-center md:w-auto md:justify-start font-bold px-6 h-10 flex items-center space-x-4 bg-zinc-900 text-neutral-200 rounded-full">
           <LogoOnion class="w-10" />
           <p>
             techrepo
           </p>
         </div>
-        <div class="flex justify-between px-10 bg-zinc-900 h-10 rounded-full space-x-6">
-          <router-link to="/" class="flex items-center justify-center font-semibold text-neutral-200">
+        <div class="grid w-full grid-cols-2 gap-y-4 sm:grid-cols-4 justify-between gap-x-4 md:w-auto mt-5 md:mt-0">
+          <router-link to="/" class="flex items-center justify-center font-semibold text-neutral-200 bg-zinc-900 p-2 rounded-full">
             Home
           </router-link>
-          <router-link to="/brands" class="flex items-center justify-center font-semibold text-neutral-200">
+          <router-link to="/brands" class="flex items-center justify-center font-semibold text-neutral-200 bg-zinc-900 p-2 rounded-full">
             Brands
           </router-link>
-          <router-link to="/devices" class="flex items-center justify-center font-semibold text-neutral-200">
+          <router-link to="/devices" class="flex items-center justify-center font-semibold text-neutral-200 bg-zinc-900 p-2 rounded-full">
             Devices
+          </router-link>
+          <router-link to="/issues" class="flex items-center justify-center font-semibold text-neutral-200 bg-zinc-900 p-2 rounded-full">
+            Issues
           </router-link>
         </div>
       </div>

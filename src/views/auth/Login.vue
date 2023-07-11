@@ -1,6 +1,8 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import axios from 'axios'
+import { defineComponent } from 'vue'
+import jwt_decode from 'jwt-decode'
 
 const form = reactive({
 	email: '',
@@ -23,8 +25,10 @@ function login() {
 		},
 	}).then((response) => {
 		console.log(response)
-			localStorage.setItem('token', response.data.token)
-			window.location.href = '/'
+		console.log(jwt_decode(response.data.token))
+		localStorage.setItem('token', response.data.token)
+		localStorage.setItem('id', jwt_decode(response.data.token).id)
+		window.location.href = '/'
 		})
 		.catch((error) => {
 			console.log(error)
