@@ -84,7 +84,7 @@ function selectDevice(device) {
 	<div class="grid grid-cols-2 gap-4">
 			<button class="rounded-xl px-4 py-2 w-full bg-zinc-900 text-neutral-100 border border-neutral-600" @click.stop="openDeviceSelector">
 				<p class="text-left">
-					{{ formDevice.name === '' ? 'Selecionar marca' : formDevice.name }}
+					{{ formDevice.name === '' ? 'Selecionar dispositivo' : formDevice.name }}
 				</p>
 			</button>
 			<input placeholder="Issue" v-model="form.reportedIssue" type="text" class="rounded-xl px-4 py-2 w-full bg-zinc-900 text-neutral-100 border border-neutral-600" />
@@ -103,12 +103,14 @@ function selectDevice(device) {
 					<thead>
 						<tr class="border-b">
 							<th class="text-left text-neutral-100 font-bold py-2">ID</th>
+							<th class="text-left text-neutral-100 font-bold py-2">Brand</th>
 							<th class="text-left text-neutral-100 font-bold py-2">Name</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr v-if="formDevice.processing !== false" v-for="device in devices.data" :key="device.id">
 							<td class="text-left text-neutral-100 py-2">{{ device.id }}</td>
+							<td class="text-left text-neutral-100 py-2">{{ device.brand.name }}</td>
 							<td class="text-left text-neutral-100 py-2">
 								<button class="text-neutral-100 hover:text-neutral-200" @click="selectDevice(device)"> 
 									{{ device.name }}

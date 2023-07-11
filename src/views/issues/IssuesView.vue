@@ -51,7 +51,7 @@ onMounted(() => {
 		<table class="w-full" v-if="!issues.processing">
 			<tr class="text-neutral-200 w-full">
 				<th class="text-left p-2 border-b">
-					Device ID
+					Device name
 				</th>
 				<th class="text-left p-2 border-b">
 					Issue
@@ -59,7 +59,7 @@ onMounted(() => {
 			</tr>
 			<tr v-for="issue in issues.data" class="text-neutral-200 w-full">
 				<td class="border-b border-neutral-700 p-2 text-neutral-400">
-					{{ issue.deviceId }}
+					{{ issue.device.name }}
 				</td>
 				<td class="border-b border-neutral-700 p-2 font-semibold">
 					{{ issue.reportedIssue }}
