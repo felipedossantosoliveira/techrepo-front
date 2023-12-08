@@ -1,4 +1,4 @@
-# PersonalBlog
+# Tech Repo Front
 
 ## Project Setup
 
